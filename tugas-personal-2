@@ -1,0 +1,72 @@
+from collections import defaultdict
+
+# Sample data and probabilities
+employee_data = [
+    ("Laki-laki", 20, 8000000, "Single", "Kendaraan pribadi"),
+    ("Laki-laki", 35, 14000000, "Single", "Kendaraan umum"),
+    ("Perempuan", 26, 10000000, "Single", "Kendaraan umum"),
+    ("Perempuan", 27, 12000000, "Menikah", "Kendaraan pribadi"),
+    ("Laki-laki", 21, 9000000, "Single", "Kendaraan pribadi"),
+    ("Laki-laki", 22, 11000000, "Single", "Kendaraan pribadi"),
+    ("Perempuan", 32, 15000000, "Menikah", "Kendaraan umum"),
+    ("Perempuan", 26, 8000000, "Menikah", "Kendaraan umum"),
+    ("Laki-laki", 25, 9000000, "Single", "Kendaraan umum"),
+    ("Perempuan", 20, 10000000, "Single", "Kendaraan pribadi"),
+]
+
+# Calculate prior probabilities of transportation types
+transport_counts = defaultdict(int)
+for _, _, _, _, transport in employee_data:
+    transport_counts[transport] += 1
+
+total_data = len(employee_data)
+prior_probs = {transport: count / total_data for transport, count in transport_counts.items()}
+
+# Calculate conditional probabilities
+cond_probs = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
+
+for gender, age, salary, status, transport in employee_data:
+    for feature in ['gender', 'age', 'salary', 'status']:
+        cond_probs[transport][feature][(gender, age, salary, status)] += 1
+
+# Convert counts to probabilities
+for transport, feature_probs in cond_probs.items():
+    for feature in feature_probs:
+        total_feature_count = sum(feature_probs[feature].values())
+        for value in feature_probs[feature]:
+            feature_probs[feature][value] /= total_feature_count
+
+# New data to classify
+new_data = [
+    ("Perempuan", 27, 12000000, "Single"),  # New data 1
+    ("Laki-Laki", 35, 13000000, "Menikah")   # New data 2
+]
+
+# Predict the transportation type for each data point
+all_data = employee_data + new_data
+
+# Predict the transportation type for each new data point
+print("Predictions for New Employee Data:\n")
+for data_point in new_data:
+    transport_scores = defaultdict(float)
+    for transport in prior_probs:
+        transport_scores[transport] = prior_probs[transport]
+        for feature, value in zip(['gender', 'age', 'salary', 'status'], data_point):
+            if value in cond_probs[transport][feature]:
+                transport_scores[transport] *= cond_probs[transport][feature][value]
+    
+    predicted_transport = max(transport_scores, key=transport_scores.get)
+    print(f"New Data: {data_point} | Predicted Transportation Type: {predicted_transport}")
+    
+# Print all data
+print("\nAll Data:\n")
+for data_point in all_data:
+    transport_scores = defaultdict(float)
+    for transport in prior_probs:
+        transport_scores[transport] = prior_probs[transport]
+        for feature, value in zip(['gender', 'age', 'salary', 'status'], data_point):
+            if value in cond_probs[transport][feature]:
+                transport_scores[transport] *= cond_probs[transport][feature][value]
+    
+    predicted_transport = max(transport_scores, key=transport_scores.get)
+    print(f"Data: {data_point} | {predicted_transport}")
