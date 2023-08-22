@@ -1,0 +1,44 @@
+import pandas as pd
+from statistics import mean, median, mode
+
+# Load the data into a DataFrame
+data = [
+    (510, 4, 8, 'C', 320),
+    (550, 7, 50, 'A', 385),
+    (620, 9, 7, 'C', 400),
+    (630, 5, 24, 'B', 392),
+    (655, 8, 100, 'A', 380),
+    (700, 4, 8, 'C', 410),
+    (780, 10, 7, 'C', 480),
+    (800, 12, 50, 'A', 600),
+    (920, 14, 8, 'C', 570),
+    (1000, 9, 24, 'B', 620)
+]
+
+columns = ['Ukuran', 'Lantai', 'Tarif_Internet', 'Tipe_Bangunan', 'Harga_Sewa']
+df = pd.DataFrame(data, columns=columns)
+
+# a. Calculate mean for each column
+mean_ukuran = mean(df['Ukuran'])
+mean_tarif_internet = mean(df['Tarif_Internet'])
+mean_harga_sewa = mean(df['Harga_Sewa'])
+
+# b. Calculate median for each column
+median_ukuran = median(df['Ukuran'])
+median_tarif_internet = median(df['Tarif_Internet'])
+median_harga_sewa = median(df['Harga_Sewa'])
+
+# c. Calculate mode for each column
+mode_ukuran = mode(df['Ukuran'])
+mode_tarif_internet = mode(df['Tarif_Internet'])
+mode_harga_sewa = mode(df['Harga_Sewa'])
+
+data = [
+    ("Ukuran", mean_ukuran, median_ukuran, mode_ukuran),
+    ("Tarif Internet", mean_tarif_internet, median_tarif_internet, mode_tarif_internet),
+    ("Harga Sewa", mean_harga_sewa, median_harga_sewa, mode_harga_sewa),
+]
+
+columns = ['', 'Mean', 'Median', 'Mode']
+df = pd.DataFrame(data, columns=columns)
+df
