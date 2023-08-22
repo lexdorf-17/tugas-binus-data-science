@@ -1,0 +1,44 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the data into a DataFrame
+data = [
+    (510, 4, 8, 'C', 320),
+    (550, 7, 50, 'A', 385),
+    (620, 9, 7, 'C', 400),
+    (630, 5, 24, 'B', 392),
+    (655, 8, 100, 'A', 380),
+    (700, 4, 8, 'C', 410),
+    (780, 10, 7, 'C', 480),
+    (800, 12, 50, 'A', 600),
+    (920, 14, 8, 'C', 570),
+    (1000, 9, 24, 'B', 620)
+]
+
+columns = ['Ukuran', 'Lantai', 'Tarif_Internet', 'Tipe_Bangunan', 'Harga_Sewa']
+df = pd.DataFrame(data, columns=columns)
+
+# Visualization: Hubungan antara Ukuran dan Harga Sewa (Scatter Plot)
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='Ukuran', y='Harga_Sewa', data=df)
+plt.title('Hubungan antara Ukuran dan Harga Sewa')
+plt.xlabel('Ukuran Ruangan (m^2)')
+plt.ylabel('Harga Sewa (Rupiah)')
+plt.show()
+
+# Visualization: Hubungan antara Tarif Internet dan Tipe Bangunan (Box Plot)
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='Tipe_Bangunan', y='Tarif_Internet', data=df)
+plt.title('Hubungan antara Tarif Internet dan Tipe Bangunan')
+plt.xlabel('Tipe Bangunan')
+plt.ylabel('Tarif Internet (Mb/detik)')
+plt.show()
+
+# Visualization: Tren Harga Sewa di Setiap Tipe Bangunan (Line Plot)
+plt.figure(figsize=(10, 6))
+sns.lineplot(x='Lantai', y='Harga_Sewa', hue='Tipe_Bangunan', data=df)
+plt.title('Tren Harga Sewa di Setiap Tipe Bangunan')
+plt.xlabel('Lantai')
+plt.ylabel('Harga Sewa (Rupiah)')
+plt.show()
