@@ -1,0 +1,35 @@
+# Sample data: (gender, age, salary, transportation)
+employee_data = [
+    ("Laki-laki", 20, 8000000, "Kendaraan pribadi"),
+    ("Laki-laki", 35, 14000000, "Kendaraan umum"),
+    ("Perempuan", 26, 10000000, "Kendaraan umum"),
+    ("Perempuan", 27, 12000000, "Kendaraan pribadi"),
+    ("Laki-laki", 21, 9000000, "Kendaraan pribadi"),
+    ("Laki-laki", 22, 11000000, "Kendaraan pribadi"),
+    ("Perempuan", 32, 15000000, "Kendaraan umum"),
+    ("Perempuan", 26, 8000000, "Kendaraan umum"),
+    ("Laki-laki", 25, 9000000, "Kendaraan umum"),
+    ("Perempuan", 20, 10000000, "Kendaraan pribadi")
+]
+
+# Control flow to determine job positions based on salary
+def determine_job_position(salary):
+    if 8000000 <= salary <= 9000000:
+        return "officer"
+    elif 10000000 <= salary <= 11000000:
+        return "supervisor"
+    elif 12000000 <= salary <= 15000000:
+        return "asisten manajer"
+    elif salary >= 15000000:
+        return "manager"
+    else:
+        return "unknown"
+
+# Sort employee data by salary (highest to lowest)
+sorted_employee_data = sorted(employee_data, key=lambda x: x[2], reverse=True)
+
+# Display results
+print("Employee Data:")
+for gender, age, salary, transportation in sorted_employee_data:
+    position = determine_job_position(salary)
+    print(f"Gender: {gender}, Age: {age}, Salary: {salary}, Transportation: {transportation}, Position: {position}")
