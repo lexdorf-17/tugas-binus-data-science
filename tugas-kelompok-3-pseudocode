@@ -1,1 +1,31 @@
+# Load data
+data <- [    (510, 4, 8, 'C', 320),    (550, 7, 50, 'A', 385),    (620, 9, 7, 'C', 400),    (630, 5, 24, 'B', 392),    (655, 8, 100, 'A', 380),    (700, 4, 8, 'C', 410),    (780, 10, 7, 'C', 480),    (800, 12, 50, 'A', 600),    (920, 14, 8, 'C', 570),    (1000, 9, 24, 'B', 620)]
+
+# Create DataFrame
+columns <- ['Ukuran', 'Lantai', 'Tarif_Internet', 'Tipe_Bangunan', 'Harga_Sewa']
+df <- DataFrame(data, columns)
+
+# Define variables
+X <- df[['Ukuran', 'Lantai', 'Tarif_Internet']]
+Y <- df['Harga_Sewa']
+
+# Add columns for X², Y², XY, and Total
+df['X²'] <- df['Ukuran'] ** 2
+df['Y²'] <- df['Harga_Sewa'] ** 2
+df['XY'] <- df['Ukuran'] * df['Harga_Sewa']
+df['Total'] <- df['X²'] + df['Y²'] + df['XY']
+
+# Calculate values for a
+n <- length(df)
+sum_xy <- sum(df['XY'])
+sum_x <- sum(df['Ukuran'])
+sum_y <- sum(df['Harga_Sewa'])
+sum_x_squared <- sum(df['X²'])
+a <- (sum_y * sum_x_squared - sum_x * sum_xy) / (n * sum_x_squared - sum_x ^ 2)
+
+# Calculate values for b
+b <- (n * sum_xy - sum_x * sum_y) / (n * sum_x_squared - sum_x ^ 2)
+
+Output "Nilai a:", a
+Output "Nilai b:", b
 
